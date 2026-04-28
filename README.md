@@ -1,23 +1,16 @@
-# Portfolio Generator
+# 🚀 Portfolio Generator
 
-A Python-based static portfolio site generator using Pydantic for structured data validation and Jinja2 for HTML templating.
+A Python-based static site generator that builds a personal portfolio website from structured JSON data using **Pydantic** for validation and **Jinja2** for templating.
 
----
-
-## 🚀 Features
-
-- Type-safe portfolio structure using Pydantic models
-- HTML generation using Jinja2 templates
-- Modular content system (skills, projects, education, etc.)
-- Automatic SVG embedding for social links
-- Clean separation of data and presentation
+It cleanly separates content, logic, and presentation so the portfolio is easy to maintain and extend.
 
 ---
 
-## 📁 Project Structure
+## ✨ Features
 
-models/ # Pydantic models (Portfolio, Skill, etc.)
-templates/ # Jinja2 HTML templates
-portfolio.json # Portfolio content data
-main.py # Entry point
-generate_site.py # Site generation logic
+- 🧱 Strongly-typed data models using Pydantic
+- 🎨 HTML generation using Jinja2 templates
+- 📦 JSON-driven content (skills, projects, education, etc.)
+- 🔗 Automatic SVG embedding for social links
+- ⚡ One-command static site generation
+- 🧩 Clean separation of data, logic, and templates

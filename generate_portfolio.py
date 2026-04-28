@@ -5,6 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from models.page import Page
 
+
 env = Environment(loader=FileSystemLoader("."), autoescape=True)
 DEFAULT_ENCODING = "utf-8"
 
