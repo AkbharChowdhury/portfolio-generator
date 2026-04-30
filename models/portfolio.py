@@ -13,7 +13,7 @@ class Contact(BaseModel):
 class SocialLink(BaseModel):
     label: str
     url: str
-    svg_path: str
+    svg_path: Optional[str] = None
     svg_data: Optional[str] = None
 
 

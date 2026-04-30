@@ -4,22 +4,23 @@ from typing import List
 from jinja2 import Environment, FileSystemLoader
 
 from models.page import Page
-
+from models.portfolio import SocialLink
 
 env = Environment(loader=FileSystemLoader("."), autoescape=True)
 DEFAULT_ENCODING = "utf-8"
 
 
-def load_social_svgs(social_links: list) -> None:
+def load_social_svgs(social_links: list[SocialLink]) -> None:
     for link in social_links:
-        svg_path = getattr(link, "svg_path", None)
+        svg_path = link.svg_path
         if svg_path:
             path = Path(svg_path)
             link.svg_data = path.read_text(encoding=DEFAULT_ENCODING) if path.exists() else ''
 
 
 def save_file(content: str, output_path: str) -> None:
-    Path(output_path).write_text(content, encoding=DEFAULT_ENCODING)
+    path = Path(output_path)
+    path.write_text(content, encoding=DEFAULT_ENCODING)
 
 
 def generate_site(portfolio_data: dict, pages: List[Page]) -> None:
