@@ -5,13 +5,14 @@ from typing import List
 from models.portfolio import Portfolio
 from generate_portfolio import load_social_svgs, generate_site
 from models.page import Page
+from models.skills import Skill
 
 
 def get_current_year() -> int:
     return datetime.now(tz=UTC).year
 
 
-def load_file(file_path):
+def load_file(file_path: str):
     with open(file_path) as f:
         return json.load(f)
 
@@ -21,25 +22,26 @@ def load_portfolio(file_path: str) -> Portfolio:
     return Portfolio.model_validate(portfolio_data)
 
 
+def sort_skills(skills: List[Skill]) -> List[Skill]:
+    return sorted(skills, key=lambda s: s.proficiency, reverse=True)
+
+
 def main():
     portfolio_path: str = 'portfolio.json'
-    portfolio_data: dict = load_file(portfolio_path)
+    portfolio: Portfolio = load_portfolio(portfolio_path)
 
-    my_portfolio: Portfolio = Portfolio.model_validate(portfolio_data)
-    load_social_svgs(my_portfolio.social_links) if my_portfolio.social_links else None
-
-    my_portfolio.skills = sorted(
-        my_portfolio.skills or [],
-        key=lambda s: s.proficiency,
-        reverse=True
-    )
+    if portfolio.social_links:
+        load_social_svgs(portfolio.social_links)
+    if portfolio.skills:
+        sorted_skills: list[Skill] = sort_skills(portfolio.skills)
+        portfolio.skills = sorted_skills
 
     pages: List[Page] = [
-        Page(template="index_template.html", output="index.html")
+        Page(template='index_template.html', output='index.html')
     ]
     portfolio_data: dict = {
         'current_year': get_current_year(),
-        **my_portfolio.model_dump(),
+        **portfolio.model_dump(),
     }
 
     generate_site(portfolio_data, pages)
@@ -49,4 +51,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
