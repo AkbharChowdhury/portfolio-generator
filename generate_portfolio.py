@@ -26,4 +26,3 @@ class PortfolioGenerator:
         for page in pages:
             html = page.render(env, portfolio_data)
             self.__save_file(html, page.output)
-p = PortfolioGenerator()
