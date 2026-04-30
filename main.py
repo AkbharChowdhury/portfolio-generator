@@ -3,7 +3,7 @@ from datetime import UTC, datetime
 from typing import List
 
 from models.portfolio import Portfolio
-from generate_portfolio import load_social_svgs, generate_site
+from generate_portfolio import PortfolioGenerator
 from models.page import Page
 from models.skills import Skill
 
@@ -29,9 +29,11 @@ def sort_skills(skills: List[Skill]) -> List[Skill]:
 def main():
     portfolio_path: str = 'portfolio.json'
     portfolio: Portfolio = load_portfolio(portfolio_path)
+    portfolio_generator = PortfolioGenerator()
 
     if portfolio.social_links:
-        load_social_svgs(portfolio.social_links)
+        portfolio_generator.load_social_svgs(portfolio.social_links)
+
     if portfolio.skills:
         sorted_skills: list[Skill] = sort_skills(portfolio.skills)
         portfolio.skills = sorted_skills
@@ -44,7 +46,7 @@ def main():
         **portfolio.model_dump(),
     }
 
-    generate_site(portfolio_data, pages)
+    portfolio_generator.generate_site(portfolio_data, pages)
 
     print('HTML files generated successfully!')
 
