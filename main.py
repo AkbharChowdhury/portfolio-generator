@@ -1,6 +1,7 @@
 import json
 from datetime import UTC, datetime
-from typing import List
+from pathlib import Path
+from typing import List, Any
 
 from models.portfolio import Portfolio
 from generate_portfolio import PortfolioGenerator
@@ -12,13 +13,12 @@ def get_current_year() -> int:
     return datetime.now(tz=UTC).year
 
 
-def load_file(file_path: str):
-    with open(file_path) as f:
+def load_file(file_path: str | Path) -> Any:
+    with Path(file_path).open(encoding="utf-8") as f:
         return json.load(f)
 
-
-def load_portfolio(file_path: str) -> Portfolio:
-    portfolio_data = load_file(file_path)
+def load_portfolio(path: str) -> Portfolio:
+    portfolio_data = load_file(path)
     return Portfolio.model_validate(portfolio_data)
 
 
@@ -47,7 +47,6 @@ def main():
     }
 
     portfolio_generator.generate_site(portfolio_data, pages)
-
     print('HTML files generated successfully!')
 
 

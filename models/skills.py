@@ -1,4 +1,4 @@
-from pydantic import BaseModel, computed_field, Field
+from pydantic import BaseModel, computed_field, Field, constr
 
 PROFICIENCY_LEVELS: list[tuple[int, str]] = [
     (80, 'Expert'),
@@ -9,12 +9,10 @@ PROFICIENCY_LEVELS: list[tuple[int, str]] = [
 
 
 def get_proficiency_label(score: int) -> str:
-    # Sorting ensures the 'next' logic doesn't break if the list order changes
+    # Sorting ensures the logic doesn't break if the list order changes
     sorted_levels = sorted(PROFICIENCY_LEVELS, key=lambda x: x, reverse=True)
-    return next(
-        (label for threshold, label in sorted_levels if score >= threshold),
-        "Beginner"
-    )
+    thresholds = (label for threshold, label in sorted_levels if score >= threshold)
+    return next(thresholds, 'Beginner')
 
 
 class Skill(BaseModel):
